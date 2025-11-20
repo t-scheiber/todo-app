@@ -1,0 +1,200 @@
+.App {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  min-height: 500px;
+}
+
+.App h1 {
+  color: white;
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 1px;
+}
+
+.App form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.App form input {
+  flex: 1;
+  height: 45px;
+  font-size: 16px;
+  padding: 0 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.App form input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.App form button {
+  padding: 0 30px;
+  height: 45px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.App form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.App form button:active {
+  transform: translateY(0);
+}
+
+.App ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.App li {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.App li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.App li.completed {
+  background: rgba(230, 230, 230, 0.95);
+  opacity: 0.7;
+}
+
+.App li.completed .todo-text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 16px;
+  color: #333;
+  word-break: break-word;
+  transition: all 0.3s ease;
+}
+
+.todobuttons {
+  padding: 8px 15px;
+  height: auto;
+  min-width: 80px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.todobuttons:first-of-type {
+  background: linear-gradient(135deg, #00c972 0%, #00a859 100%);
+  color: white;
+  min-width: 100px;
+}
+
+.todobuttons:first-of-type:hover {
+  background: linear-gradient(135deg, #00a859 0%, #008f4a 100%);
+  transform: scale(1.05);
+}
+
+.todobuttons:last-of-type {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+}
+
+.todobuttons:last-of-type:hover {
+  background: linear-gradient(135deg, #ee5a52 0%, #dc4c44 100%);
+  transform: scale(1.05);
+}
+
+.todobuttons:active {
+  transform: scale(0.98);
+}
+
+/* Empty state */
+.App ul:empty::after {
+  content: "No todos yet. Add one above! 📝";
+  display: block;
+  text-align: center;
+  padding: 40px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .App {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .App h1 {
+    font-size: 2em;
+  }
+
+  .App li {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .todo-text {
+    margin-bottom: 10px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .todobuttons {
+    flex: 1;
+    min-width: auto;
+  }
+}
