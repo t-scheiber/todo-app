@@ -15,8 +15,8 @@ A simple, clean todo list application built with React, demonstrating fundamenta
 
 ## 🛠️ Technologies Used
 
-- **React 18** - UI library with hooks
-- **Create React App** - Development environment
+- **React 19** - UI library with hooks
+- **Vite 8** - Development and production build tool
 - **CSS3** - Styling and layout
 - **JavaScript (ES6+)** - Modern JavaScript features
 
@@ -38,27 +38,27 @@ A simple, clean todo list application built with React, demonstrating fundamenta
 
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone https://github.com/t-scheiber/todo-app.git
 
 # Navigate to project directory
 cd todo-app
 
 # Install dependencies
-npm install
+bun install --frozen-lockfile
 
 # Start development server
-npm start
+bun run start
 ```
 
-The application will open at `http://localhost:3000`
+The application will open at `http://localhost:5173`
 
 ## 🏗️ Project Structure
 
 ```
 src/
-├── App.js          # Main component with todo logic
+├── App.jsx         # Main component with todo logic
 ├── App.css         # Styling for the app
-├── index.js        # React entry point
+├── index.jsx       # React entry point
 ├── index.css       # Global styles
 └── assets/         # Images and static files
 ```
@@ -85,7 +85,7 @@ const [todoInput, setTodoInput] = useState('');
 ### Data Structure
 ```javascript
 {
-  id: Date.now(),
+  id: nextId.current++,
   text: "Todo text",
   completed: false
 }
@@ -96,7 +96,7 @@ const [todoInput, setTodoInput] = useState('');
 ### Add Todo
 - Form with controlled input
 - Prevent empty submissions
-- Generate unique IDs using timestamp
+- Generate unique IDs using an instance-local counter
 - Clear input after submission
 
 ### Toggle Completion
@@ -154,16 +154,16 @@ This project teaches:
 
 ```bash
 # Create optimized production build
-npm run build
+bun run build
 ```
 
 Creates a production-ready build in the `build/` folder.
 
 ## 🔧 Available Scripts
 
-- `npm start` - Run development server
-- `npm test` - Run tests
-- `npm run build` - Create production build
+- `bun run start` - Run development server
+- `bun run test --runInBand --watch=false` - Run tests
+- `bun run build` - Create production build
 
 ## 🌟 Code Highlights
 
@@ -171,15 +171,15 @@ Creates a production-ready build in the `build/` folder.
 Clean, functional approach to managing todos:
 ```javascript
 // Add todo
-setTodos([...todos, newTodo]);
+setTodos(current => [...current, newTodo]);
 
 // Toggle completion
-setTodos(todos.map(todo => 
+setTodos(current => current.map(todo => 
   todo.id === id ? {...todo, completed: !todo.completed} : todo
 ));
 
 // Delete todo
-setTodos(todos.filter(todo => todo.id !== id));
+setTodos(current => current.filter(todo => todo.id !== id));
 ```
 
 ## 🔄 Future Enhancements
@@ -209,3 +209,13 @@ Potential features to add:
 ---
 
 **Built with React** ⚛️ | **Simple & Functional** ✨ | **Great for Learning** 📚
+
+## Maintenance validation
+
+Use Node 22.23.2 and Bun 1.4.2. `bun run build` first applies strict JavaScript type checking to the component and entry point, then creates `build/`. Run `bun run lint` and `bun run test:production` as well as the component tests. The production smoke starts the locked local server on loopback and verifies the built HTML and referenced assets with bounded requests.
+
+All 12 component tests cover the existing add, blank-input rejection, exact text, form submit, complete, undo, delete and safe text-rendering behavior. Two regression tests also verify that tasks added in the same millisecond complete and delete independently. The previous timestamp IDs collided and affected multiple rows; an instance-local counter fixes this without changing styling or ordinary behavior. Tasks still reset on reload.
+
+`bun run start:prod` serves `build/` with the locked local `serve` dependency, binds `0.0.0.0`, and respects `PORT` (default 3000). Nixpacks retains Node 22, Bun, `build/` and the production start command; installation now enforces the committed lockfile. The unused web-vitals callback scaffold is removed with the deprecated CRA toolchain.
+
+GitHub Pages currently serves a separate legacy `gh-pages` branch. This source baseline does not publish Pages or reconfigure the documented custom-domain host. The live production deployment remains a separate validation and publication step.
