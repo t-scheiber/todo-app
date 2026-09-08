@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+
+/** @typedef {{id: number, text: string, completed: boolean}} Todo */
 import './App.css';
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(/** @type {Todo[]} */ ([]));
+  const nextId = useRef(0);
   const [todoInput, setTodoInput] = useState('');
 
+  /** @param {import('react').FormEvent<HTMLFormElement>} e */
   const addTodo = (e) => {
     e.preventDefault(); // Prevent form submission reload
     if (!todoInput.trim()) return; // Avoid adding empty todos
-    setTodos([...todos, { id: Date.now(), text: todoInput, completed: false }]);
+    const todo = { id: nextId.current++, text: todoInput, completed: false };
+    setTodos(current => [...current, todo]);
     setTodoInput('');
   };
 
+  /** @param {number} id */
   const toggleCompleted = (id) => {
-    setTodos(
-      todos.map(todo =>
+    setTodos(current =>
+      current.map(todo =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
   };
 
+  /** @param {number} id */
   const deleteTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
+    setTodos(current => current.filter(todo => todo.id !== id));
   };
 
   return (
@@ -30,6 +37,7 @@ function App() {
       <form onSubmit={addTodo}>
         <input
           type="text"
+          aria-label="New todo"
           value={todoInput}
           onChange={(e) => setTodoInput(e.target.value)}
           placeholder="Add a new todo..."
